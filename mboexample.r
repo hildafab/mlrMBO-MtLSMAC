@@ -1,3 +1,9 @@
+library(OpenML)
+library(mlr)
+
+setOMLConfig(apikey = "")
+
+OpenML.datasetID = 316
 
 getMultiplexer.classif = function(){
   
@@ -85,9 +91,10 @@ getregrLearnerForMBOTuning = function(){
 getMBOControl = function(budget,par.set) {
 
   mbo.control = makeMBOControl()
-  mbo.control = setMBOControlInfill(mbo.control, crit = "ei")
+  mbo.control = setMBOControlInfill(mbo.control, crit = "eimtl") #"ei")
   mbo.control = setMBOControlInfill(mbo.control, opt = "focussearch",
                                     opt.restarts = 2L, opt.focussearch.maxit = 2L, opt.focussearch.points = 1000L)
+  mbo.control = setMBOControlInfill(crit.eimtl.openmldid = OpenML.datasetID, crit.eimtl.parset = par.set)
   mbo.control = setMBOControlTermination(control=mbo.control, iters=budget)
   
   return(mbo.control)
@@ -96,6 +103,17 @@ getMBOControl = function(budget,par.set) {
 
 
 #------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------
+
+getdataset <- function(){
+  oml.dataset = getOMLDataSet(did = OpenML.datasetID)
+  return(oml.dataset)
+}
+
+
+#------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------
+
 
 tuningTask = function(dataset, learner, par.set, budget, perf.measures) {
   
