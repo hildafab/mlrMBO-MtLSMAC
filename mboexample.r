@@ -106,7 +106,7 @@ getMBOControl = function(budget,par.set) {
 #------------------------------------------------------------------------------------------
 
 getdataset <- function(){
-  oml.dataset = getOMLDataSet(did = OpenML.datasetID)
+  oml.dataset = getOMLDataSet(OpenML.datasetID)
   return(oml.dataset)
 }
 
